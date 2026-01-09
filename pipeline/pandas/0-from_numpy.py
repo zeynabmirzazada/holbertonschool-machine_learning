@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 import pandas as pd
+"""
+Module 0-from_numpy
+Creates a pandas DataFrame from a NumPy ndarray.
+"""
 
 
 def from_numpy(array):
