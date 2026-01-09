@@ -12,4 +12,4 @@ def slice(df):
     return: sliced df with every 60th row
     '''
     df = df[['High', 'Low', 'Close', 'Volume_BTC']]
-    return df[60::60]
+    return df[::60]
