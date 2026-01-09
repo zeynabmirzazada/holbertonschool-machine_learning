@@ -9,7 +9,11 @@ Creates a pandas DataFrame from a NumPy ndarray.
 def from_numpy(array):
 
     """
-    Creates a pandas DataFrame from a NumPy ndarray.
+    Args:
+        array (numpy.ndarray): The input NumPy array.
+
+    Returns:
+        pandas.DataFrame: DataFrame with labeled columns.
 
     Columns are labeled with capital letters in alphabetical order.
     """
