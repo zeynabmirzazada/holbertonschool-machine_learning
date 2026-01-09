@@ -2,9 +2,10 @@
 import pandas as pd
 
 def from_numpy(array):
+
     """
     Creates a pandas DataFrame from a NumPy ndarray.
-    
+
     Columns are labeled with capital letters in alphabetical order.
     """
     n_cols = array.shape[1]
