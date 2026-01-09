@@ -2,7 +2,6 @@
 '''
 function that takes dataframe and converts last 10 rows into numpy ndarray
 '''
-import pandas as pd
 
 
 def array(df):
