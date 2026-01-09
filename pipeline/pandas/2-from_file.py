@@ -3,6 +3,8 @@
 function that loads data from a file as dataframe
 '''
 import pandas as pd
+
+
 def from_file(filename, delimiter):
     '''
     Args:
