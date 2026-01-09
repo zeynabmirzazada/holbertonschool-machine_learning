@@ -4,6 +4,7 @@ function that takes a pd.DataFrame and extracts the columns High, Low, Close,
 and Volume_BTC. Then selects every 60th row from these columns.
 Returns: the sliced pd.DataFrame
 '''
+import pandas as pd
 
 
 def slice(df):
