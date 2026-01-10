@@ -23,4 +23,4 @@ def hierarchy(df1, df2):
     df2 = index(df2)
     return pd.concat([df2.loc[1417411980:1417417980],
         df1.loc[1417411980:1417417980]],
-        keys=['bitstamp', 'coinbase']).sort_index((
+        keys=['bitstamp', 'coinbase']).sort_index()
