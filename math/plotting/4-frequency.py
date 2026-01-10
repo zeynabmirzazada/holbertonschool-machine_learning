@@ -16,7 +16,7 @@ def frequency():
     plt.figure(figsize=(6.4, 4.8))
 
     # Define bins every 10 units from 0 to 100
-    bins = range(0, 101, 10)
+    bins = list(range(0, 101, 10))
 
     # Plot the histogram
     # edgecolor='black' adds the requested outline
