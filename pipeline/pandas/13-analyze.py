@@ -8,4 +8,4 @@ def analyze(df):
     '''
     Computes descriptive statistics for all columns except the Timestamp colum
     '''
-    return df.describe(exclude=[int64])
+    return df.drop(columns=['Timestamp']).describe()
