@@ -3,6 +3,7 @@
 This module contains a function that plots a scatter plot of
 height versus weight data.
 """
+import numpy as np
 
 
 def scatter():
