@@ -6,6 +6,7 @@ labeling the rows from df2 as bitstamp and the rows from df1 as coinbase,
 returns the concatenated df
 '''
 index = __import__('10-index').index
+import pandas as pd
 
 
 def concat(df1, df2):
