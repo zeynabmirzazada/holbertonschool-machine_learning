@@ -27,8 +27,5 @@ def frequency():
     plt.ylabel('Number of Students')
     plt.title('Project A')
 
-    # Set x-axis ticks to match the bins for better readability
-    plt.xticks(bins)
-
     # Display the plot
     plt.show()
