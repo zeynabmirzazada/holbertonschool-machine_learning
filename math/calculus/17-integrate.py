@@ -41,7 +41,7 @@ def poly_integral(poly, C=0):
             val = int(val)
         integral.append(val)
 
-    # Ensure the returned list is as small as possible by removing trailing zeros
+    # Ensure the returned list is as small as possible by removing trailing 0s
     # but maintaining at least the constant term
     while len(integral) > 1 and integral[-1] == 0:
         integral.pop()
