@@ -46,9 +46,6 @@ def inverse(matrix):
     if not all(len(row) == n for row in matrix):
         raise ValueError("matrix must be a non-empty square matrix")
 
-    # 3. Handle 1x1 case (Minor of a 1x1 is defined as 1)
-    if n == 1:
-        return [[1]]
 
     # 4. Calculate Minor Matrix
     minor_matrix = []
