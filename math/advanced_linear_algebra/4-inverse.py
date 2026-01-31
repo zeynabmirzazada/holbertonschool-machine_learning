@@ -65,7 +65,6 @@ def inverse(matrix):
     if n == 1:
         return [[1 / matrix[0][0]]]
 
-
     adjugate_matrix = []
     for a in range(len(minor_matrix)):
         row_ = []
