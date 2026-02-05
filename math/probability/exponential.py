@@ -72,5 +72,5 @@ class Exponential:
         e = 2.7182818285
         lambtha = self.lambtha
 
-        #CDF formula: 1 - e^(-lambtha * x)
+        # CDF formula: 1 - e^(-lambtha * x)
         return 1 - e ** (-lambtha * x)
