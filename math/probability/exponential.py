@@ -31,7 +31,6 @@ class Exponential:
                 raise TypeError("data must be a list")
             if len(data) < 2:
                 raise ValueError("data must contain multiple values")
-            
             # For exponential distribution, lambtha = 1 / mean
             # Mean = sum(data) / len(data)
             self.lambtha = float(len(data) / sum(data))
