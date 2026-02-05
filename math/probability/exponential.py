@@ -34,3 +34,22 @@ class Exponential:
             # For exponential distribution, lambtha = 1 / mean
             # Mean = sum(data) / len(data)
             self.lambtha = float(len(data) / sum(data))
+    def pdf(self, x):
+        """
+        Calculates the value of the PDF for a given time period.
+
+        Args:
+            x (float): The time period.
+
+        Returns:
+            float: The PDF value for x.
+        """
+        if x < 0:
+            return 0
+
+        # Constants
+        e = 2.7182818285
+        lambtha = self.lambtha
+
+        # PDF formula: lambtha * e^(-lambtha * x)
+        return lambtha * (e ** (-lambtha * x))
