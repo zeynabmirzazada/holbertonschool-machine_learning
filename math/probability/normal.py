@@ -35,3 +35,21 @@ class Normal:
     def x_value(self, z):
         '''method2 documented'''
         return z * self.stddev + self.mean
+
+    def pdf(self, x):
+        '''method3 documented'''
+        return ((1 / (2 * 3.1415926536 * self.stddev ** 2) ** (0.5))
+                * 2.7182818285 **
+                (-(x-self.mean) ** 2 / (2 * self.stddev ** 2)))
+
+    def cdf(self, x):
+        '''method4 documented'''
+        return 0.5 * (1 + Normal.erf((x - self.mean) /
+                                     (2 ** 0.5 * self.stddev)))
+
+    @staticmethod
+    def erf(z):
+        """Approximate erf using a Maclaurin series"""
+        pi = 3.1415926536
+        return ((2 / (pi ** 0.5)) * (z - (z**3)/3 + (z**5)/10 -
+                                     (z**7)/42 + (z**9)/216))
