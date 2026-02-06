@@ -27,3 +27,11 @@ class Normal:
             stddev = stddev + (self.data[i] - self.mean) ** 2
         stddev = (stddev / len(self.data)) ** (0.5)
         return stddev
+
+    def z_score(self, x):
+        '''method1 documented'''
+        return (x - self.mean) / self.stddev
+
+    def x_value(self, z):
+        '''method2 documented'''
+        return z * self.stddev + self.mean
