@@ -18,9 +18,12 @@ class Neuron:
 
     def gradient_descent(self, X, Y, A, alpha=0.05):
         '''update W and b'''
-        self.__W = self.__W - alpha * ((X * (A - Y)).mean())
-        self.__b = self.__b - alpha * (A - Y).mean()
-
+        m = Y.shape[1]
+        dZ = A - Y
+        dW = 1 / m * np.dot(dZ, X.T)
+        db = (1/m) * np.sum(dZ)
+        self.__W = self.__W - (alpha * dW)
+        self.__b = self.__b - (alpha * db)
     @property
     def W(self):
         '''getter for W'''
