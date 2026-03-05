@@ -32,6 +32,7 @@ class Neuron:
         s = np.matmul(self.__W, X) + self.__b
         self.__A = 1 / (1 + np.e ** (-s))
         return self.__A
+
     @property
     def W(self):
         return self.__W
