@@ -17,6 +17,7 @@ class Neuron:
         self.__A = 0
 
     def gradient_descent(self, X, Y, A, alpha=0.05):
+        '''update W and b'''
         self.__W = self.__W - alpha * ((X * (A - Y)).mean())
         self.__b = self.__b - alpha * (A - Y).mean()
 
