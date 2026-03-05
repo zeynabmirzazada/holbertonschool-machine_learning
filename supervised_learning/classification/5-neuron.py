@@ -16,6 +16,10 @@ class Neuron:
         self.__b = 0
         self.__A = 0
 
+    def gradient_descent(self, X, Y, A, alpha=0.05):
+        self.__W = self.__W - alpha * (X * (A - Y)).mean()
+        self.__b = self.__b - alpha * (A - Y).mean()
+
     @property
     def W(self):
         '''getter for W'''
@@ -49,10 +53,6 @@ class Neuron:
         pred = np.where(pred >= 0.5, 1, 0)
         cost = self.cost(Y, self.__A)
         return pred, cost
-
-    def gradient_descent(self, X, Y, A, alpha=0.05):
-        self.__W = self.__W - alpha * ((X * (A - Y)).mean())
-        self.__b = self.__b - alpha * (A - Y).mean()
 
     @staticmethod
     def sigmoid(X):
