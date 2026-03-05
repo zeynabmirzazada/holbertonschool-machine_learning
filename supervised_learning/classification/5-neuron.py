@@ -51,7 +51,7 @@ class Neuron:
         return pred, cost
 
     def gradient_descent(self, X, Y, A, alpha=0.05):
-        self.__W = self.__W - alpha * (X * (A - Y)).mean()
+        self.__W = self.__W - alpha * ((X * (A - Y)).mean())
         self.__b = self.__b - alpha * (A - Y).mean()
 
     @staticmethod
