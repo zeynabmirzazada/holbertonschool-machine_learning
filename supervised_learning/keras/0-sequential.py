@@ -23,3 +23,4 @@ def build_model(nx, layers, activations, lambtha, keep_prob):
         Dense(layers[2], kernel_regularizer=regularizers.L2(lambtha),
             activation=activations[2])
         ])
+    return model
