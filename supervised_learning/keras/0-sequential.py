@@ -13,14 +13,17 @@ def build_model(nx, layers, activations, lambtha, keep_prob):
     keep_prob is the probability that a node will be kept for dropout
     You are not allowed to use the Input class
     Returns: the keras model'''
-    model = Sequential([
-        Dense(layers[0], kernel_regularizer=regularizers.L2(lambtha),
-            input_shape=(nx,), activation=activations[0]),
-        Dropout(keep_prob),  # Dropout layer with 30% rate
-        Dense(layers[1], kernel_regularizer=regularizers.L2(lambtha),
-            activation=activations[1]),
-        Dropout(keep_prob),
-        Dense(layers[2], kernel_regularizer=regularizers.L2(lambtha),
-            activation=activations[2])
+    model = K.Sequential([
+        K.layers.Dense(layers[0],
+                       kernel_regularizer=K.regularizers.L2(lambtha),
+                       input_shape=(nx,), activation=activations[0]),
+        K.layers.Dropout(keep_prob),  # Dropout layer with 30% rate
+        K.layers.Dense(layers[1],
+                       kernel_regularizer=K.regularizers.L2(lambtha),
+                       activation=activations[1]),
+        K.layers.Dropout(keep_prob),
+        K.layers.Dense(layers[2],
+                       kernel_regularizer=K.regularizers.L2(lambtha),
+                       activation=activations[2])
         ])
     return model
