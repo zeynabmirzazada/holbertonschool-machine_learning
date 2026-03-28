@@ -43,5 +43,5 @@ def convolve_grayscale(images, kernel, padding='same', stride=(1, 1)):
     for row in range(0, images.shape[1] - kh + 1, sh):
         for column in range(0, images.shape[2] - kw + 1, sw):
             part = images[:, row:row + kh, column:column + kw] * kernel
-            conv[:, row, column] = np.sum(part, axis=(1, 2))
+            conv[:, (row // 2), (column // 2)] = np.sum(part, axis=(1, 2))
     return conv
