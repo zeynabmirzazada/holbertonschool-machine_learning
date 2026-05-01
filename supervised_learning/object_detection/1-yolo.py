@@ -16,7 +16,7 @@ class Yolo:
         self.nms_t = nms_t
         self.anchors = anchors
     def process_outputs(self, outputs, image_size):
-        boxes = [x[:, :, :, 40:44] * 38 for x in outputs]
+        boxes = [x[:, :, :, 40:44] * 100 for x in outputs]
         box_confidences = [x[:, :, :, 0] for x in outputs]
         box_class_probs = [x[:, :, :, 5:] for x in outputs]
         return (boxes, box_confidences, box_class_probs)
