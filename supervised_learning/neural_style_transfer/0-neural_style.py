@@ -34,4 +34,4 @@ class NST():
         #img = tf.convert_to_tensor(image, dtype=tf.float32)
         img = tf.image.resize(image, [new_h, new_w], method='bicubic')
         img = tf.expand_dims(img, axis=0)
-        return tf.cast(img, tf.float32) / 255.0
+        return img / 255.0
