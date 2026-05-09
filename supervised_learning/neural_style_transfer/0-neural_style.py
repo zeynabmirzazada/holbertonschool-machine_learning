@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 '''initialize'''
+import numpy as np
+import tensorflow as tf
 
 
 class NST():
