@@ -31,7 +31,7 @@ class NST():
         h, w = image.shape[0], image.shape[1]
         sc = 512 / max(h, w)
         new_h, new_w = int(sc * h), int(sc * w)
-        img = tf.convert_to_tensor(image, dtype=tf.float32)
+        #img = tf.convert_to_tensor(image, dtype=tf.float32)
         img = tf.image.resize(image, [new_h, new_w], method='bicubic')
         img = tf.expand_dims(img, axis=0)
-        return tf.image.convert_image_dtype(img, tf.float32)
+        return tf.cast(image, tf.float32) / 255.0
