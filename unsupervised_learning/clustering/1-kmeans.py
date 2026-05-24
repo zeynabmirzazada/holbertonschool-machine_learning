@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 """Performs K-means"""
 import numpy as np
