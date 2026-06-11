@@ -54,4 +54,4 @@ class Simple_GAN(keras.Model) :
                 x=self.get_real_sample()
                 y=self.get_fake_sample()
                 discr_loss=self.discriminator.loss(x,y)
-            self.discriminator.optimizer.apply_gradients(zip(g.gradient(discr_loss,self.discriminator.weights),self.discriminator.weights))
+            self.discriminator.apply_gradients(zip(g.gradient(discr_loss,self.discriminator.weights),self.discriminator.weights))
