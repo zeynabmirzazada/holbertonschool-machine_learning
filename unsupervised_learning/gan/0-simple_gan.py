@@ -50,11 +50,12 @@ class Simple_GAN(keras.Model) :
     def train_step(self,useless_argument):
         for _ in range(self.disc_iter) :
             with tf.GradientTape() as g:
-                g.watch(self.discriminator.weights)
+                g.watch(self.discriminator.trainable_variables)
                 x=self.get_real_sample()
-                y=self.get_fake_sample()
+                y=self.get_fake_sample(training=True)
                 discr_loss=self.discriminator.loss(x,y)
-            g.gradient(discr_loss,self.discriminator.weights)
+            a=g.gradient(discr_loss,self.discriminator.weights)
+            self.discriminator.optimizer.apply_gradients(zip(a, self.discriminator.trainable_variables))
 
         with tf.GradientTape() as g:
             g.watch(self.generator.weights)
