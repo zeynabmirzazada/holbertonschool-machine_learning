@@ -52,7 +52,7 @@ class Simple_GAN(keras.Model) :
             with tf.GradientTape() as g:
                 g.watch(self.discriminator.trainable_variables)
                 x=self.get_real_sample()
-                y=self.get_fake_sample(training=True)
+                y=self.get_fake_sample()
                 discr_loss=self.discriminator.loss(x,y)
             a=g.gradient(discr_loss,self.discriminator.trainable_variables)
             self.discriminator.optimizer.apply_gradients(zip(a, self.discriminator.trainable_variables))
