@@ -25,7 +25,7 @@ class Simple_GAN(keras.Model) :
         self.generator.compile(optimizer=generator.optimizer , loss=generator.loss )
 
         # define the discriminator loss and optimizer:
-        self.discriminator.loss      = lambda x,y :
+        self.discriminator.loss = lambda x,y :
             tf.keras.losses.MeanSquaredError()(x, tf.ones(x.shape)) +
             tf.keras.losses.MeanSquaredError()(y, -1*tf.ones(y.shape))
         self.discriminator.optimizer = keras.optimizers.Adam(learning_rate=
