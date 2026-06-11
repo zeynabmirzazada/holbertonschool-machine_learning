@@ -25,9 +25,13 @@ class Simple_GAN(keras.Model) :
         self.generator.compile(optimizer=generator.optimizer , loss=generator.loss )
 
         # define the discriminator loss and optimizer:
-        self.discriminator.loss      = lambda x,y : tf.keras.losses.MeanSquaredError()(x, tf.ones(x.shape)) + tf.keras.losses.MeanSquaredError()(y, -1*tf.ones(y.shape))
-        self.discriminator.optimizer = keras.optimizers.Adam(learning_rate=self.learning_rate, beta_1=self.beta_1, beta_2=self.beta_2)
-        self.discriminator.compile(optimizer=discriminator.optimizer , loss=discriminator.loss )
+        self.discriminator.loss      = lambda x,y :
+            tf.keras.losses.MeanSquaredError()(x, tf.ones(x.shape)) +
+            tf.keras.losses.MeanSquaredError()(y, -1*tf.ones(y.shape))
+        self.discriminator.optimizer = keras.optimizers.Adam(learning_rate=
+                self.learning_rate, beta_1=self.beta_1, beta_2=self.beta_2)
+        self.discriminator.compile(optimizer=discriminator.optimizer , loss=
+                discriminator.loss )
 
 
     # generator of real samples of size batch_size
@@ -46,3 +50,10 @@ class Simple_GAN(keras.Model) :
 
     # overloading train_step()    
     def train_step(self,useless_argument):
+        for _ in range(self.disc_iter) :
+            with tf.GradientTape() as g:
+                g.watch(self.discriminator.weights)
+                x=get_real_sample()
+                y=get_fake_sample()
+                discr_loss=self.discriminator.loss(x,y)
+            self.discriminator.optimizer.apply_gradients(zip(g.gradient(discr_loss,self.discriminator.weights),self.discriminator.weights))
