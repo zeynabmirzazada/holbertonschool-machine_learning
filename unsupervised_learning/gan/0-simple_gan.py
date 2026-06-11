@@ -51,7 +51,7 @@ class Simple_GAN(keras.Model) :
         for _ in range(self.disc_iter) :
             with tf.GradientTape() as g:
                 g.watch(self.discriminator.weights)
-                x=get_real_sample()
-                y=get_fake_sample()
+                x=get_real_sample(self)
+                y=get_fake_sample(self)
                 discr_loss=self.discriminator.loss(x,y)
             self.discriminator.optimizer.apply_gradients(zip(g.gradient(discr_loss,self.discriminator.weights),self.discriminator.weights))
