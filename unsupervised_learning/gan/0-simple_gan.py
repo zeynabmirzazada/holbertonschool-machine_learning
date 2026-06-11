@@ -58,7 +58,7 @@ class Simple_GAN(keras.Model) :
 
         with tf.GradientTape() as g:
             g.watch(self.generator.weights)
-            x=self.get_fake_sample()
+            x=self.get_fake_sample(training=True)
             gen_loss=self.generator.loss(x)
-        g.gradient(discr_loss,self.discriminator.weights)
+        g.gradient(gen_loss,self.generator.weights)
         return {"discr_loss": discr_loss, "gen_loss": gen_loss}
