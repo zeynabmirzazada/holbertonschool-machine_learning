@@ -60,5 +60,5 @@ class Simple_GAN(keras.Model) :
             g.watch(self.generator.weights)
             x=self.get_fake_sample()
             gen_loss=self.generator.loss(x)
-        g.gradient(gen_loss, self.generator.weights)
+        g.gradient(discr_loss,self.discriminator.weights)
         return {"discr_loss": discr_loss, "gen_loss": gen_loss}
