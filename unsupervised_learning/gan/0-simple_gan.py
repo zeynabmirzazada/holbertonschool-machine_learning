@@ -33,20 +33,20 @@ class Simple_GAN(keras.Model):
             x, tf.ones(x.shape)
         )
         self.generator.optimizer = keras.optimizers.Adam(
-            learning_rate=self.learning_rate, beta_1=self.beta_1, beta_2=self.beta_2
-        )
-        self.generator.compile(optimizer=generator.optimizer, loss=generator.loss)
+            learning_rate=self.learning_rate, beta_1=self.beta_1,
+            beta_2=self.beta_2)
+        self.generator.compile(optimizer=generator.optimizer,
+                loss=generator.loss)
 
         # define the discriminator loss and optimizer:
-        self.discriminator.loss = lambda x, y: tf.keras.losses.MeanSquaredError()(
-            x, tf.ones(x.shape)
+        self.discriminator.loss = lambda x, y:
+            tf.keras.losses.MeanSquaredError()(x, tf.ones(x.shape)
         ) + tf.keras.losses.MeanSquaredError()(y, -1 * tf.ones(y.shape))
         self.discriminator.optimizer = keras.optimizers.Adam(
-            learning_rate=self.learning_rate, beta_1=self.beta_1, beta_2=self.beta_2
-        )
+            learning_rate=self.learning_rate, beta_1=self.beta_1,
+            beta_2=self.beta_2)
         self.discriminator.compile(
-            optimizer=discriminator.optimizer, loss=discriminator.loss
-        )
+            optimizer=discriminator.optimizer, loss=discriminator.loss)
 
     # generator of real samples of size batch_size
     def get_fake_sample(self, size=None, training=False):
@@ -80,5 +80,6 @@ class Simple_GAN(keras.Model):
             x = self.discriminator(self.get_fake_sample(training=True))
             gen_loss = self.generator.loss(x)
         b = h.gradient(gen_loss, self.generator.weights)
-        self.generator.optimizer.apply_gradients(zip(b, self.generator.weights))
+        self.generator.optimizer.apply_gradients(zip(b, self.generator.weights)
+                )
         return {"discr_loss": discr_loss, "gen_loss": gen_loss}
