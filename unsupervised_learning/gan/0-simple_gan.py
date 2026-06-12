@@ -44,6 +44,7 @@ class Simple_GAN(keras.Model):
                     x, tf.ones(x.shape)
                 )
                 + tf.keras.losses.MeanSquaredError()(y, -1 * tf.ones(y.shape))
+                )
         self.discriminator.optimizer = keras.optimizers.Adam(
             learning_rate=self.learning_rate, beta_1=self.beta_1,
             beta_2=self.beta_2)
