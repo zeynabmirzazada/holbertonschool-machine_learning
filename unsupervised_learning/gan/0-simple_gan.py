@@ -85,5 +85,5 @@ class Simple_GAN(keras.Model):
             gen_loss = self.generator.loss(x)
         b = h.gradient(gen_loss, self.generator.weights)
         self.generator.optimizer.apply_gradients(zip(b, self.generator.weights)
-                )
+        )
         return {"discr_loss": discr_loss, "gen_loss": gen_loss}
