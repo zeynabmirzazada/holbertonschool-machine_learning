@@ -1,29 +1,35 @@
 #!/usr/bin/env python3
-"""Module that defines a WGAN_GP with weight replacement."""
+"""
+    Define WGAN with gradient penalty
+"""
 import tensorflow as tf
 from tensorflow import keras
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 class WGAN_GP(keras.Model):
-    """A Wasserstein GAN with gradient penalty and weight replacement."""
+    """
+        Wasserstein GANs class with gradient penalty
+    """
 
     def __init__(self, generator, discriminator, latent_generator,
                  real_examples, batch_size=200, disc_iter=2,
                  learning_rate=.005, lambda_gp=10):
-        """Initializes the WGAN_GP model.
-
-        Args:
-            generator: the generator network.
-            discriminator: the discriminator network.
-            latent_generator: function generating latent vectors.
-            real_examples: tensor of real examples.
-            batch_size: the batch size.
-            disc_iter: number of discriminator iterations per step.
-            learning_rate: the learning rate.
-            lambda_gp: the gradient penalty weight.
         """
-        super().__init__()
+            class constructor
+
+        :param generator: generator network
+        :param discriminator: discriminator network
+        :param latent_generator: input (latent vector) for generator
+        :param real_examples: real example for training
+        :param batch_size: hyperparameter, number sample to generate
+        :param disc_iter: number of iter for discriminator in one iter of
+        training
+        :param learning_rate: learning rate for training
+        :param lambda_gp: new hyperparameter for gradient penalty
+        """
+        super().__init__()  # run the __init__ of keras.Model first.
         self.latent_generator = latent_generator
         self.real_examples = real_examples
         self.generator = generator
@@ -32,61 +38,67 @@ class WGAN_GP(keras.Model):
         self.disc_iter = disc_iter
 
         self.learning_rate = learning_rate
-        self.beta_1 = .3
-        self.beta_2 = .9
+        self.beta_1 = .3  # standard value, but can be changed if necessary
+        self.beta_2 = .9  # standard value, but can be changed if necessary
 
         self.lambda_gp = lambda_gp
         self.dims = self.real_examples.shape
         self.len_dims = tf.size(self.dims)
         self.axis = tf.range(1, self.len_dims, delta=1, dtype='int32')
-        self.scal_shape = self.dims.as_list()
+        self.scal_shape = self.dims.as_list()  #
         self.scal_shape[0] = self.batch_size
         for i in range(1, self.len_dims):
             self.scal_shape[i] = 1
         self.scal_shape = tf.convert_to_tensor(self.scal_shape)
 
-        self.generator.loss = lambda x: -tf.math.reduce_mean(x)
-        self.generator.optimizer = keras.optimizers.Adam(
-            learning_rate=self.learning_rate,
-            beta_1=self.beta_1, beta_2=self.beta_2
-        )
-        self.generator.compile(
-            optimizer=generator.optimizer, loss=generator.loss
-        )
+        # define the generator loss and optimizer:
+        self.generator.loss = lambda fake_output: -tf.reduce_mean(fake_output)
+        self.generator.optimizer = (
+            keras.optimizers.Adam(learning_rate=self.learning_rate,
+                                  beta_1=self.beta_1,
+                                  beta_2=self.beta_2))
+        self.generator.compile(optimizer=generator.optimizer,
+                               loss=generator.loss)
 
-        self.discriminator.loss = lambda x, y: (
-            tf.math.reduce_mean(y) - tf.math.reduce_mean(x)
-        )
-        self.discriminator.optimizer = keras.optimizers.Adam(
-            learning_rate=self.learning_rate,
-            beta_1=self.beta_1, beta_2=self.beta_2
-        )
-        self.discriminator.compile(
-            optimizer=discriminator.optimizer, loss=discriminator.loss
-        )
+        # define the discriminator loss and optimizer:
+        self.discriminator.loss = lambda real_output, fake_output: \
+            tf.reduce_mean(fake_output) - tf.reduce_mean(real_output)
+        self.discriminator.optimizer = (
+            keras.optimizers.Adam(learning_rate=self.learning_rate,
+                                  beta_1=self.beta_1,
+                                  beta_2=self.beta_2))
+        self.discriminator.compile(optimizer=discriminator.optimizer,
+                                   loss=discriminator.loss)
+
+    def replace_weights(self, gen_h5, disc_h5):
+        """
+            method to replace weights for generator and discriminator
+            by that ones that have been stored in file .h5
+
+        :param gen_h5: file where weights for generator are stored
+        :param disc_h5: file where weights for discriminator are stored
+        """
+        self.generator.load_weights(gen_h5)
+        self.discriminator.load_weights(disc_h5)
 
     def get_fake_sample(self, size=None, training=False):
-        """Generates a fake sample using the generator.
+        """
+            function to generate fake sample
 
-        Args:
-            size: number of samples to generate.
-            training: whether the generator is in training mode.
-
-        Returns:
-            A batch of generated fake samples.
+        :param size: size of corpus to generate
+        :param training: False to obtain sample generated by model
+         in eval mode
+        :return: corpus of fake sample
         """
         if not size:
             size = self.batch_size
         return self.generator(self.latent_generator(size), training=training)
 
     def get_real_sample(self, size=None):
-        """Gets a random real sample.
-
-        Args:
-            size: number of real samples to return.
-
-        Returns:
-            A batch of real samples.
+        """
+            function to return corpus real sample
+        :param size: size of corpus
+        :return: corpus of real sample
         """
         if not size:
             size = self.batch_size
@@ -95,84 +107,76 @@ class WGAN_GP(keras.Model):
         return tf.gather(self.real_examples, random_indices)
 
     def get_interpolated_sample(self, real_sample, fake_sample):
-        """Generates an interpolated sample between real and fake.
-
-        Args:
-            real_sample: a batch of real samples.
-            fake_sample: a batch of fake samples.
-
-        Returns:
-            A batch of interpolated samples.
+        """
+            generate interpolated sample
+        :param real_sample: corpus of real samples
+        :param fake_sample: corpus of fake samples
+        :return: interpolated sample
         """
         u = tf.random.uniform(self.scal_shape)
         v = tf.ones(self.scal_shape) - u
         return u * real_sample + v * fake_sample
 
     def gradient_penalty(self, interpolated_sample):
-        """Computes the gradient penalty.
-
-        Args:
-            interpolated_sample: a batch of interpolated samples.
-
-        Returns:
-            The gradient penalty.
+        """
+            compute gradient penalty to stabilize training
+        :param interpolated_sample: interpolated sample
+        :return: value of gradient penalty
         """
         with tf.GradientTape() as gp_tape:
             gp_tape.watch(interpolated_sample)
             pred = self.discriminator(interpolated_sample, training=True)
         grads = gp_tape.gradient(pred, [interpolated_sample])[0]
         norm = tf.sqrt(tf.reduce_sum(tf.square(grads), axis=self.axis))
+
         return tf.reduce_mean((norm - 1.0) ** 2)
 
     def train_step(self, useless_argument):
-        """Performs one training step of the WGAN_GP.
-
-        Args:
-            useless_argument: required by the Keras API but unused.
-
-        Returns:
-            A dictionary with the discriminator loss, generator loss,
-            and gradient penalty.
+        """
+            function to train WGAN_GP
+        :param useless_argument: normaly pass data, but here
+        data=self.real_example
+        :return: training model with loss for generator and discriminator
+        following Wasserstein GAN with gradient penalty
         """
         for _ in range(self.disc_iter):
-            with tf.GradientTape() as tape:
+
+            with (tf.GradientTape() as disc_tape):
+                # get a real sample
                 real_sample = self.get_real_sample()
-                fake_sample = self.get_fake_sample(training=True)
-                interpolated_sample = self.get_interpolated_sample(
-                    real_sample, fake_sample
-                )
+                # get a fake sample
+                fake_sample = self.get_fake_sample()
+                # get the interpolated sample (bw real & fake)
+                interpoled_sample = self.get_interpolated_sample(real_sample,
+                                                                 fake_sample)
 
-                real_output = self.discriminator(real_sample, training=True)
-                fake_output = self.discriminator(fake_sample, training=True)
-                discr_loss = self.discriminator.loss(real_output, fake_output)
-                gp = self.gradient_penalty(interpolated_sample)
-                new_discr_loss = discr_loss + self.lambda_gp * gp
-            grads = tape.gradient(
-                new_discr_loss, self.discriminator.trainable_variables
-            )
-            self.discriminator.optimizer.apply_gradients(
-                zip(grads, self.discriminator.trainable_variables)
-            )
+                disc_real_output = self.discriminator(real_sample)
+                disc_fake_output = self.discriminator(fake_sample)
+                old_discr_loss = self.discriminator.loss(disc_real_output,
+                                                         disc_fake_output)
 
-        with tf.GradientTape() as tape:
+                gp = self.gradient_penalty(interpoled_sample)
+
+                new_discr_loss = old_discr_loss + self.lambda_gp * gp
+
+            disc_gradients = (
+                disc_tape.gradient(new_discr_loss,
+                                   self.discriminator.trainable_variables))
+            self.discriminator.optimizer.apply_gradients(zip(
+                disc_gradients,
+                self.discriminator.trainable_variables))
+
+        with tf.GradientTape() as gen_tape:
+            # get a fake sample
             fake_sample = self.get_fake_sample(training=True)
-            fake_output = self.discriminator(fake_sample, training=False)
-            gen_loss = self.generator.loss(fake_output)
-        grads = tape.gradient(
-            gen_loss, self.generator.trainable_variables
-        )
-        self.generator.optimizer.apply_gradients(
-            zip(grads, self.generator.trainable_variables)
-        )
+            gen_out = self.discriminator(fake_sample, training=False)
+            # compute the loss gen_loss of the generator on this sample
+            gen_loss = self.generator.loss(gen_out)
 
-        return {"discr_loss": discr_loss, "gen_loss": gen_loss, "gp": gp}
+        gen_gradients = gen_tape.gradient(gen_loss,
+                                          self.generator.trainable_variables)
+        self.generator.optimizer.apply_gradients(zip(
+            gen_gradients, self.generator.trainable_variables))
 
-    def replace_weights(self, gen_h5, disc_h5):
-        """Replaces the generator and discriminator weights.
-
-        Args:
-            gen_h5: path to the .h5 file with the generator weights.
-            disc_h5: path to the .h5 file with the discriminator weights.
-        """
-        self.generator.load_weights(gen_h5)
-        self.discriminator.load_weights(disc_h5)
+        return {"discr_loss": new_discr_loss, "gen_loss": gen_loss,
+                "gradient_penalty": gp}
