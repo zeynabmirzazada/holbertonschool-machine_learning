@@ -95,9 +95,9 @@ class WGAN_clip(keras.Model):
         for _ in range(self.disc_iter):
             with tf.GradientTape() as tape:
                 real_sample = self.get_real_sample()
-                fake_sample = self.get_fake_sample()
-                real_output = self.discriminator(real_sample)
-                fake_output = self.discriminator(fake_sample)
+                fake_sample = self.get_fake_sample(training=True)
+                real_output = self.discriminator(real_sample, training=True)
+                fake_output = self.discriminator(fake_sample, training=True)
                 discr_loss = self.discriminator.loss(real_output, fake_output)
             grads = tape.gradient(
                 discr_loss, self.discriminator.trainable_variables
@@ -106,10 +106,12 @@ class WGAN_clip(keras.Model):
                 zip(grads, self.discriminator.trainable_variables)
             )
 
-            tf.clip_by_value(self.discriminator.trainable_variables, -1.0, 1.0))
+            for var in self.discriminator.trainable_variables:
+                var.assign(tf.clip_by_value(var, -1.0, 1.0))
 
         with tf.GradientTape() as tape:
-            fake_output = self.discriminator(self.get_fake_sample(training=True))
+            fake_sample = self.get_fake_sample(training=True)
+            fake_output = self.discriminator(fake_sample, training=False)
             gen_loss = self.generator.loss(fake_output)
         grads = tape.gradient(
             gen_loss, self.generator.trainable_variables
