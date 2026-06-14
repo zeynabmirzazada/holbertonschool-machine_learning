@@ -29,7 +29,7 @@ class Simple_GAN(keras.Model):
         self.beta_2 = 0.9  # standard value, but can be changed if necessary
 
         # define the generator loss and optimizer:
-        self.generator.loss = lambda x: tf.math.reduce_mean(x)
+        self.generator.loss = lambda x: tf.math.reduce_mean(x,-1)
         self.generator.optimizer = keras.optimizers.Adam(
             learning_rate=self.learning_rate, beta_1=self.beta_1,
             beta_2=self.beta_2)
