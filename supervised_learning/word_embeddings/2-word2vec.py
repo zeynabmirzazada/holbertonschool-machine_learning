@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 '''word2vec'''
-from gensim.models import Word2Vec
+import gensim.models.Word2Vec
 
 
 def word2vec_model(sentences, vector_size=100, min_count=5, window=5,
