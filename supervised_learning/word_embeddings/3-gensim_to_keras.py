@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 '''gensim to keras'''
-from tensorflow.keras.layers import Embedding
+import tensorflow as tf
 
 
 def gensim_to_keras(model):
@@ -9,7 +9,7 @@ def gensim_to_keras(model):
     weights = keyed_vectors.vectors  # vectors themselves, a 2D numpy array
     index_to_key = keyed_vectors.index_to_key  # which row in `weights` corresponds to which word?
 
-    layer = Embedding(
+    layer = tf.keras.layers.Embedding(
         input_dim=weights.shape[0],
         output_dim=weights.shape[1],
         weights=[weights],
