@@ -10,4 +10,5 @@ def word2vec_model(sentences, vector_size=100, min_count=5, window=5,
             vector_size=vector_size, min_count=min_count, window=window,
             negative=negative, sg=int(not(cbow)), epochs=epochs, seed=seed,
             workers=workers)
+    model.save()
     return model
