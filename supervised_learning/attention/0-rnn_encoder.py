@@ -16,7 +16,7 @@ class RNNEncoder:
                                        return_state=True)
     def initialize_hidden_state(self):
         '''dhfhg'''
-        return torch.zeros(self.batch, self.units)
+        return tf.zeros([self.batch, self.units])
     
     def call(self, x, initial):
         '''cnnncg'''
