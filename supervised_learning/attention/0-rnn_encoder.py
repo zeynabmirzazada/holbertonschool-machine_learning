@@ -20,4 +20,4 @@ class RNNEncoder:
     
     def call(self, x, initial):
         '''cnnncg'''
-        return self.gru(self.embedding(x))
+        return self.gru(self.embedding(x), initial_state=initial)
