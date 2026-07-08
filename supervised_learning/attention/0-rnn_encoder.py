@@ -14,6 +14,7 @@ class RNNEncoder:
                                        recurrent_initializer='glorot_uniform',
                                        return_sequences=True,
                                        return_state=True)
+
     def initialize_hidden_state(self):
         '''dhfhg'''
         return tf.zeros([self.batch, self.units])
