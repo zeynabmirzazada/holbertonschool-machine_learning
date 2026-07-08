@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 '''dghth'''
+
+
 import tensorflow as tf
-'''jkjbknk'''
+
 
 class RNNEncoder:
-    '''dvb'''
+    '''djhhfyjhikjhjgvb'''
+
     def __init__(self, vocab, embedding, units, batch):
-        '''vcbgfg'''
+        '''vcbgjhhmjhvjhhfg'''
         self.batch = batch
         self.units = units
         self.embedding = tf.keras.layers.Embedding(vocab, embedding)
@@ -16,7 +19,7 @@ class RNNEncoder:
                                        return_state=True)
 
     def initialize_hidden_state(self):
-        '''dhfhg'''
+        '''dhfkubhuhg'''
         return tf.zeros([self.batch, self.units])
 
     def __call__(self, x, initial):
