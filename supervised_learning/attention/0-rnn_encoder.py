@@ -11,7 +11,7 @@ class RNNEncoder:
         self.units = units
         self.embedding = tf.keras.layers.Embedding(vocab, embedding)
         self.gru = tf.keras.layers.GRU(units,
-                                       reccurent_initializer='glorot_uniform',
+                                       recurrent_initializer='glorot_uniform',
                                        return_sequences=True,
                                        return_state=True)
     def initialize_hidden_state(self):
