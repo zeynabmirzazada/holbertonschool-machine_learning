@@ -18,7 +18,7 @@ class RNNEncoder:
     def initialize_hidden_state(self):
         '''dhfhg'''
         return tf.zeros([self.batch, self.units])
-    
+
     def __call__(self, x, initial):
         '''cnnncg'''
         a = self.gru(self.embedding(x), initial_state=initial)
