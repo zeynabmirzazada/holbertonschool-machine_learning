@@ -18,7 +18,7 @@ class RNNEncoder:
         '''dhfhg'''
         return tf.zeros([self.batch, self.units])
     
-    def call(self, x, initial):
+    def __call__(self, x, initial):
         '''cnnncg'''
         a = self.gru(self.embedding(x), initial_state=initial)
         return a
