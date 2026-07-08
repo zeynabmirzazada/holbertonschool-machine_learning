@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 '''dghth'''
 import tensorflow as tf
-
+'''jkjbknk'''
 
 class RNNEncoder:
     '''dvb'''
