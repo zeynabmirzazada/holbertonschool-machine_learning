@@ -17,5 +17,5 @@ class SelfAttention:
         '''dbdfbdfxv'''
         w = self.W(s_prev)
         u = self.U(hidden_states)
-        v = self.V(u)
+        v = self.V(tf.expand_dims(w, axis=1) + u)
         return w, v
