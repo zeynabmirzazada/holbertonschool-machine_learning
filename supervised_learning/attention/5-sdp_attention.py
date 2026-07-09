@@ -12,7 +12,7 @@ def sdp_attention(Q, K, V, mask=None):
     if mask != None:
         a += tf.math.multiply(mask, -1e9)
 
-    weights = tf.exp(a) / tf.reduce_sum(a, axis=-1, keepdims=True)
+    weights = tf.nn.softmax(a, axis=-1)
 
     output = tf.matmul(weights, V)
     return output, weights
