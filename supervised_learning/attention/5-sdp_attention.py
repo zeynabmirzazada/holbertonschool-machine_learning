@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-'''sdccvgkjsdcck'''
+'''sdccvgkjsdccfgffgk'''
 
 
 import tensorflow as tf
 
 
 def sdp_attention(Q, K, V, mask=None):
-    '''sc smncmjjmkjdm'''
+    '''scldglmflkkgsmncmjjmkjdm'''
     a = (Q @ tf.transpose(K, perm=[0, 2, 1])) /
         tf.math.sqrt(tf.constant(float(K.shape[-1])))
     if mask != None:
