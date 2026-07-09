@@ -9,7 +9,7 @@ def sdp_attention(Q, K, V, mask=None):
     '''sc smncmjjmkjdm'''
     a = tf.matmul(Q, K, transpose_b=True) /
         tf.math.sqrt(tf.constant(float(K.shape[-1])))
-    if mask is not None:
+    if not mask == None:
         a += mask * -1e9
 
     weights = tf.nn.softmax(a, axis=-1)
