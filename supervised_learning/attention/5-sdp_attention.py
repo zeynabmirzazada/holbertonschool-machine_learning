@@ -7,7 +7,7 @@ import tensorflow as tf
 
 def sdp_attention(Q, K, V, mask=None):
     '''scldglmflkkgsmncmjjmkjdm'''
-    a = (Q @ tf.transpose(K, perm=[0, 2, 1])) / (
+    a = tf.matmul(Q, K, transpose_b=True) / (
         tf.math.sqrt(tf.constant(float(K.shape[-1]))))
     if mask is not None:
         a += tf.math.multiply(mask, -1e9)
