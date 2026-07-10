@@ -13,7 +13,7 @@ class MultiHeadAttention:
         '''initializer'''
         self.h = h
         self.dm = dm
-        self.depth = dm / h
+        self.depth = dm // h
         self.Wq = tf.keras.layers.Dense(dm)
         self.Wk = tf.keras.layers.Dense(dm)
         self.Wv = tf.keras.layers.Dense(dm)
