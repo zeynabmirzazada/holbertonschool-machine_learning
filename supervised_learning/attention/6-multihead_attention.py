@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 '''6-multihead_attention'''
-
-
 sdp_attention = __import__('5-sdp_attention').sdp_attention
 import tensorflow as tf
 
@@ -27,11 +25,11 @@ class MultiHeadAttention:
         Vo = self.Wv(V)
 
         Qo = tf.transpose(tf.reshape(Qo, (Qo.shape[0], Qo.shape[1], self.h,
-                                        self.depth)), perm=[0, 2, 1, 3])
+                                          self.depth)), perm=[0, 2, 1, 3])
         Ko = tf.transpose(tf.reshape(Ko, (Ko.shape[0], Ko.shape[1], self.h,
-                                        self.depth)), perm=[0, 2, 1, 3])
+                                          self.depth)), perm=[0, 2, 1, 3])
         Vo = tf.transpose(tf.reshape(Vo, (Vo.shape[0], Vo.shape[1], self.h,
-                                        self.depth)), perm=[0, 2, 1, 3])
+                                          self.depth)), perm=[0, 2, 1, 3])
 
         output, weights = sdp_attention(Qo, Ko, Vo)
         output = tf.identity(tf.transpose(output, perm=[0, 2, 1, 3]))
