@@ -36,4 +36,4 @@ class MultiHeadAttention:
         output = tf.identify(tf.transpose(output, perm=[0, 2, 1, 3]))
         output = tf.reshape(output, [output.shape[0], output.shape[1], -1])
 
-        return output, weights
+        return self.linear(output), weights
