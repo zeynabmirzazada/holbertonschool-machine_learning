@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-sdp_attention = __import__('5-sdp_attention').sdp_attention
 '''6-multihead_attention'''
 import tensorflow as tf
+sdp_attention = __import__('5-sdp_attention').sdp_attention
 
 
 class MultiHeadAttention:
