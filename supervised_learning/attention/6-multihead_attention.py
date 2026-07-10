@@ -21,19 +21,20 @@ class MultiHeadAttention:
 
     def __call__(self, Q, K, V, mask):
         '''call function'''
-        Q = self.Wq(Q)
-        K = self.Wk(K)
-        V = self.Wv(V)
+        mask = None
+        Qo = self.Wq(Q)
+        Ko = self.Wk(K)
+        Vo = self.Wv(V)
 
-        Q = tf.transpose(tf.reshape(Q, (Q.shape[0], Q.shape[1], self.h,
+        Qo = tf.transpose(tf.reshape(Qo, (Qo.shape[0], Qo.shape[1], self.h,
                                         self.depth)), perm=[0, 2, 1, 3])
-        K = tf.transpose(tf.reshape(K, (K.shape[0], K.shape[1], self.h,
+        Ko = tf.transpose(tf.reshape(Ko, (Ko.shape[0], Ko.shape[1], self.h,
                                         self.depth)), perm=[0, 2, 1, 3])
-        V = tf.transpose(tf.reshape(V, (V.shape[0], V.shape[1], self.h,
+        Vo = tf.transpose(tf.reshape(Vo, (Vo.shape[0], Vo.shape[1], self.h,
                                         self.depth)), perm=[0, 2, 1, 3])
 
-        output, weights = sdp_attention(Q, K, V)
-        output = tf.identify(tf.transpose(output, perm=[0, 2, 1, 3]))
+        output, weights = sdp_attention(Qo, Ko, Vo)
+        output = tf.identity(tf.transpose(output, perm=[0, 2, 1, 3]))
         output = tf.reshape(output, [output.shape[0], output.shape[1], -1])
 
         return self.linear(output), weights
