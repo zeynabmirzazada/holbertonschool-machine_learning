@@ -10,11 +10,10 @@ class Dataset:
         '''wdccjncdnkdkdj'''
         self.data_train = load_pt2en(split='train')
         self.data_valid = load_pt2en(split='validation')
-        self.tokenizer_pt = transformers.AutoTokenizer.from_pretrained(
-                'neuralmind/bert-base-portuguese-cased')
-        self.tokenizer_en = transformers.AutoTokenizer.from_pretrained(
-                'bert-base-uncased')
+        self.tokenizer_pt = transformers.AutoTokenizer()
+        self.tokenizer_en = transformers.AutoTokenizer()
 
     def tokenize_dataset(self, data):
         '''sjfjjdfjdkjehuytsyf'''
+        pass
 
