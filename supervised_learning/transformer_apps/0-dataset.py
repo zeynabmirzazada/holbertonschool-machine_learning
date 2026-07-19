@@ -46,4 +46,3 @@ class Dataset:
         self.tokenizer_en = tokenizer_en
 
         return self.tokenizer_pt, self.tokenizer_en
-
